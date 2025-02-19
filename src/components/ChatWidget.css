@@ -1,12 +1,55 @@
 /* ChatWidget.css */
+
+/* Glass background for the chat widget container */
 .chat-widget {
-  width: 100%;
-  max-height: 300px;
-  overflow-y: auto;
-  background-color: #000; /* Dark background */
-  color: #fff; /* Light text */
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   padding: 20px;
-  border: 1px solid #444;
-  border-radius: 8px;
+  border-radius: 16px;
+  max-height: 400px;
+  overflow-y: auto;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  position: relative;
+  max-width: 600px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Layout for each chat message */
+.chat-message {
+  display: flex;
+  flex-direction: column; /* Username above the message text */
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+
+/* Username badge with gradient styling */
+.username-badge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin-bottom: 4px; /* Spacing between username and message */
+  font-weight: bold;
+  color: #fff;
+  background: linear-gradient(135deg, #3c1053, #ad5389); /* Default gradient */
+}
+
+/* Gradient styling based on user role */
+.username-badge.broadcaster {
+  background: linear-gradient(135deg, #ffbb00, #ffdd55); /* Gold gradient */
+}
+
+.username-badge.mod {
+  background: linear-gradient(135deg, #3b5, #6bd178); /* Green gradient */
+}
+
+.username-badge.sub {
+  background: linear-gradient(135deg, #715aff, #a08cff); /* Purple gradient */
+}
+
+/* Message text styling */
+.message-text {
+  color: #fff;
 }

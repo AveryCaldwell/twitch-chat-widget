@@ -1,6 +1,7 @@
 // ChatWidget.jsx
 import React, { useState, useEffect } from "react";
 import tmi from "tmi.js"; // Import tmi.js to interact with Twitch chat
+import "./ChatWidget.css";
 
 const ChatWidget = () => {
   // Initialize state to store chat messages
@@ -20,13 +21,21 @@ const ChatWidget = () => {
     client.on("message", (channel, tags, message, self) => {
       // Ignore messages that come from the client itself
       if (self) return;
-      console.log("Tags:", tags); // <-- Add this line
-      console.log("Channel:", channel); // <-- Add this line
 
+      // Check if the message is the "!clear" command
+      if (tags.mod || tags.badges?.broadcaster) {
+        if (message.trim() === "!clear") {
+          // Optionally, you could restrict this to mods or the broadcaster:
+          //   console.log("Tags:", tags);
+          //   console.log("Channel:", channel);
+          setMessages([]); // Clear all chat messages
+          return; // Exit early so the command message isn't added to the chat
+        }
+      }
       // Update the messages state by adding the new message
       setMessages((prevMessages) => [
         ...prevMessages,
-        { username: tags["display-name"] || tags.username, message },
+        { username: tags["display-name"] || tags.username, message, tags },
       ]);
     });
 
@@ -38,18 +47,29 @@ const ChatWidget = () => {
 
   // Render the chat widget UI
   return (
-    // This will render each chat message as it arrives, using the username and message from your state.
     <div className="chat-widget">
-      {/* loop through each message in the state. */}
-      {messages.map((msg, index) => (
-        // Each message gets a unique key (here, using the index) to help React efficiently update the DOM.
-        <div key={index} className="chat-message">
-          {/* For every message, we show the username in bold followed by the
-          message text. */}
-          <strong>{msg.username}: </strong>
-          <span>{msg.message}</span>
-        </div>
-      ))}
+      {messages.map((msg, index) => {
+        // Determine the role class based on Twitch tags
+        let roleClass = "";
+        // The ?. operator checks if msg.tags exists before trying to access badges.
+        // If msg.tags is undefined or null, this expression returns undefined instead of throwing an error.
+        //   Similarly, msg.tags?.badges checks if the badges property exists before trying to access the broadcaster property.
+        if (msg.tags?.badges?.broadcaster) {
+          roleClass = "broadcaster";
+        } else if (msg.tags?.mod) {
+          roleClass = "mod";
+        } else if (msg.tags?.subscriber) {
+          roleClass = "sub";
+        }
+
+        return (
+          //   <div key={index} className={`chat-message ${roleClass}`}>
+          <div key={index} className="chat-message">
+            <div className={`username-badge ${roleClass}`}> {msg.username}</div>
+            <div className="message-text">{msg.message}</div>
+          </div>
+        );
+      })}
     </div>
   );
 };
