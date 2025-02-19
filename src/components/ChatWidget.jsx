@@ -11,7 +11,7 @@ const ChatWidget = () => {
   useEffect(() => {
     // Create a new tmi.js client and specify the Twitch channel to connect to
     const client = new tmi.Client({
-      channels: ["AvesTheAdventurer"], // Replace with your actual Twitch channel name
+      channels: ["AvesTheAdventurer"],
     });
 
     // Connect to Twitch chat using the client
@@ -32,7 +32,8 @@ const ChatWidget = () => {
           return; // Exit early so the command message isn't added to the chat
         }
       }
-      // Update the messages state by adding the new message
+
+      // If not a command, add the new message to the chat state
       setMessages((prevMessages) => [
         ...prevMessages,
         { username: tags["display-name"] || tags.username, message, tags },

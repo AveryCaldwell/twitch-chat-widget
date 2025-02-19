@@ -24,6 +24,20 @@
   flex-direction: column; /* Username above the message text */
   align-items: flex-start;
   margin-bottom: 8px;
+  /* Add fade-in and slide-up animation */
+  animation: fadeInSlide 0.5s ease-in-out;
+}
+
+/*  keyframes for the fadeInSlide animation */
+@keyframes fadeInSlide {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Username badge with gradient styling */
