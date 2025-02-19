@@ -1,8 +1,7 @@
 // ChatWidget.jsx
-import React, { useState, useEffect } from "react"; // Import React and its hooks for state and lifecycle management
+import React, { useState, useEffect } from "react";
 import tmi from "tmi.js"; // Import tmi.js to interact with Twitch chat
 
-// Define the ChatWidget component
 const ChatWidget = () => {
   // Initialize state to store chat messages
   const [messages, setMessages] = useState([]);
@@ -44,4 +43,4 @@ const ChatWidget = () => {
   );
 };
 
-export default ChatWidget; // Export the component for use in other parts of the app
+export default ChatWidget;
