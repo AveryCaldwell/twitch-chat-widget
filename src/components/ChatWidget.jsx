@@ -36,9 +36,18 @@ const ChatWidget = () => {
 
   // Render the chat widget UI
   return (
+    // This will render each chat message as it arrives, using the username and message from your state.
     <div className="chat-widget">
-      {/* TODO: Render chat messages dynamically here */}
-      Chat widget will appear here.
+      {/* loop through each message in the state. */}
+      {messages.map((msg, index) => (
+        // Each message gets a unique key (here, using the index) to help React efficiently update the DOM.
+        <div key={index} className="chat-message">
+          {/* For every message, we show the username in bold followed by the
+          message text. */}
+          <strong>{msg.username}: </strong>
+          <span>{msg.message}</span>
+        </div>
+      ))}
     </div>
   );
 };
