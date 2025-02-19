@@ -1,3 +1,4 @@
+// App.js
 import "./App.css";
 import ChatWidget from "./components/ChatWidget";
 import "./components/ChatWidget.css";
