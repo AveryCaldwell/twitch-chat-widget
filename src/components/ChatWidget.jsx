@@ -20,6 +20,8 @@ const ChatWidget = () => {
     client.on("message", (channel, tags, message, self) => {
       // Ignore messages that come from the client itself
       if (self) return;
+      console.log("Tags:", tags); // <-- Add this line
+      console.log("Channel:", channel); // <-- Add this line
 
       // Update the messages state by adding the new message
       setMessages((prevMessages) => [
