@@ -67,3 +67,9 @@
 .message-text {
   color: #fff;
 }
+
+.user-icon {
+  width: 20px; /* Adjust as needed */
+  height: 20px; /* Adjust as needed */
+  margin-right: 6px; /* Space between icon and username */
+}

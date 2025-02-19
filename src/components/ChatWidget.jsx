@@ -3,9 +3,23 @@ import React, { useState, useEffect } from "react";
 import tmi from "tmi.js"; // Import tmi.js to interact with Twitch chat
 import "./ChatWidget.css";
 
+// Import your PNG icons
+import broadcasterIcon from "../assets/icons/broadcaster.png";
+import modIcon from "../assets/icons/mod.png";
+import subIcon from "../assets/icons/sub.png";
+import defaultIcon from "../assets/icons/default.png";
+
 const ChatWidget = () => {
   // Initialize state to store chat messages
   const [messages, setMessages] = useState([]);
+
+  // An object that maps each role to the appropriate icon
+  const roleIcons = {
+    broadcaster: broadcasterIcon,
+    mod: modIcon,
+    sub: subIcon,
+    default: defaultIcon,
+  };
 
   // useEffect hook runs when the component mounts
   useEffect(() => {
@@ -25,9 +39,6 @@ const ChatWidget = () => {
       // Check if the message is the "!clear" command
       if (tags.mod || tags.badges?.broadcaster) {
         if (message.trim() === "!clear") {
-          // Optionally, you could restrict this to mods or the broadcaster:
-          //   console.log("Tags:", tags);
-          //   console.log("Channel:", channel);
           setMessages([]); // Clear all chat messages
           return; // Exit early so the command message isn't added to the chat
         }
@@ -49,24 +60,33 @@ const ChatWidget = () => {
   // Render the chat widget UI
   return (
     <div className="chat-widget">
+      {/* // Determine the role class based on Twitch tags */}
       {messages.map((msg, index) => {
-        // Determine the role class based on Twitch tags
         let roleClass = "";
-        // The ?. operator checks if msg.tags exists before trying to access badges.
-        // If msg.tags is undefined or null, this expression returns undefined instead of throwing an error.
-        //   Similarly, msg.tags?.badges checks if the badges property exists before trying to access the broadcaster property.
+        let icon = roleIcons.default;
+
+        // Check for broadcaster
         if (msg.tags?.badges?.broadcaster) {
           roleClass = "broadcaster";
-        } else if (msg.tags?.mod) {
+          icon = roleIcons.broadcaster;
+        }
+        // Check for mod
+        else if (msg.tags?.mod) {
           roleClass = "mod";
-        } else if (msg.tags?.subscriber) {
+          icon = roleIcons.mod;
+        }
+        // Check for subscriber
+        else if (msg.tags?.subscriber) {
           roleClass = "sub";
+          icon = roleIcons.sub;
         }
 
         return (
-          //   <div key={index} className={`chat-message ${roleClass}`}>
           <div key={index} className="chat-message">
-            <div className={`username-badge ${roleClass}`}> {msg.username}</div>
+            <div className={`username-badge ${roleClass}`}>
+              <img src={icon} alt="role icon" className="user-icon" />
+              {msg.username}
+            </div>
             <div className="message-text">{msg.message}</div>
           </div>
         );
